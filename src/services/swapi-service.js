@@ -29,12 +29,3 @@ class SwapiService {
     return this.getResource(`starships/${id}`);
   }
 }
-const a = new SwapiService();
-a.getAllPeople().then((body) => {
-  body.forEach((el) => {
-    console.log(el.name);
-  });
-});
-a.getPerson(2).then((body) => {
-  console.log(body.name);
-});
