@@ -1,4 +1,4 @@
-class SwapiService {
+export class SwapiService {
   _apibase = "https://swapi.dev/api/";
   async getResource(url) {
     const res = await fetch(`${this._apibase}${url}`);
@@ -9,23 +9,62 @@ class SwapiService {
   }
   async getAllPeople() {
     const res = await this.getResource(`people`);
-    return res.results;
+    return res.results.map(this._transformPerson);
   }
-  getPerson(id) {
-    return this.getResource(`people/${id}`);
+  async getPerson(id) {
+    return this._transformPlanet(await this.getResource(`people/${id}`));
   }
+
   async getAllPlanets() {
     const res = await this.getResource(`planets`);
-    return res.results;
+    return res.results.map(this._transformPlanet);
   }
-  getPlanet(id) {
-    return this.getResource(`planets/${id}`);
+  async getPlanet(id) {
+    return this._transformPlanet(await this.getResource(`planets/${id}`));
   }
+
   async getAllStarships() {
     const res = await this.getResource(`starships`);
-    return res.results;
+    return res.results.map(this._transformStarShip);
   }
-  getStarship(id) {
-    return this.getResource(`starships/${id}`);
+  async getStarship(id) {
+    return this._transformStarShip(await this.getResource(`starships/${id}`));
+  }
+
+  _extractId(item) {
+    const idRegExp = /\/([0-9]*)\/$/;
+    return item.url.match(idRegExp)[1];
+  }
+
+  _transformPlanet(planet) {
+    return {
+      planetName: planet.name,
+      id: this._extractId(planet),
+      population: planet.population,
+      rotationPeriod: planet.rotation_period,
+      diameter: planet.diameter,
+    };
+  }
+  _transformPerson(person) {
+    return {
+      id: this._extractId(person),
+      name: person.name,
+      gender: person.gender,
+      birthYear: person.birthYear,
+      eyeColor: person.eyeColor,
+    };
+  }
+  _transformStarShip(starShip) {
+    return {
+      id: this._extractId(starShip),
+      name: starShip.name,
+      model: starShip.model,
+      manufacturer: starShip.manufacturer,
+      constInCredits: starShip.constInCredits,
+      length: starShip.length,
+      crew: starShip.crew,
+      passengers: starShip.passengers,
+      cargoCapacity: starShip.cargoCapacity,
+    };
   }
 }
