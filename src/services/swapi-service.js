@@ -1,18 +1,18 @@
 export class SwapiService {
   _apibase = "https://swapi.dev/api/";
   async getResource(url) {
-    const res = await fetch(`${this._apibase}${url}`);
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, received ${res.status}`);
-    }
-    return await res.json();
+      const res = await fetch(`${this._apibase}${url}`);
+      if (!res.ok) {
+        throw new Error(`Could not fetch ${url}, received ${res.status}`);
+      }
+      return await res.json();
   }
   async getAllPeople() {
     const res = await this.getResource(`people`);
     return res.results.map(this._transformPerson);
   }
   async getPerson(id) {
-    return this._transformPlanet(await this.getResource(`people/${id}`));
+    return this._transformPerson(await this.getResource(`people/${id}`));
   }
 
   async getAllPlanets() {
@@ -36,7 +36,7 @@ export class SwapiService {
     return item.url.match(idRegExp)[1];
   }
 
-  _transformPlanet(planet) {
+  _transformPlanet = (planet) => {
     return {
       planetName: planet.name,
       id: this._extractId(planet),
@@ -44,17 +44,17 @@ export class SwapiService {
       rotationPeriod: planet.rotation_period,
       diameter: planet.diameter,
     };
-  }
-  _transformPerson(person) {
+  };
+  _transformPerson = (person) => {
     return {
       id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color,
     };
-  }
-  _transformStarShip(starShip) {
+  };
+  _transformStarShip = (starShip) => {
     return {
       id: this._extractId(starShip),
       name: starShip.name,
@@ -66,5 +66,5 @@ export class SwapiService {
       passengers: starShip.passengers,
       cargoCapacity: starShip.cargoCapacity,
     };
-  }
+  };
 }
