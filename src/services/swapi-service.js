@@ -1,5 +1,6 @@
 export class SwapiService {
   _apibase = "https://swapi.dev/api/";
+  _imagebase = "https://starwars-visualguide.com/assets/img/";
   async getResource(url) {
     const res = await fetch(`${this._apibase}${url}`);
     if (!res.ok) {
@@ -30,6 +31,15 @@ export class SwapiService {
   getStarship = async (id) => {
     return this._transformStarShip(await this.getResource(`starships/${id}`));
   };
+  getPersonImg = ({ id }) => {
+    return `${this._imagebase}characters/${id}.jpg`;
+  };
+  getShipImg = ({ id }) => {
+    return `${this._imagebase}starships/${id}.jpg`;
+  };
+  getPlanetImg = ({ id }) => {
+    return `${this._imagebase}planets/${id}.jpg`;
+  };
 
   _extractId(item) {
     const idRegExp = /\/([0-9]*)\/$/;
@@ -38,7 +48,7 @@ export class SwapiService {
 
   _transformPlanet = (planet) => {
     return {
-      planetName: planet.name,
+      name: planet.name,
       id: this._extractId(planet),
       population: planet.population,
       rotationPeriod: planet.rotation_period,
@@ -60,11 +70,11 @@ export class SwapiService {
       name: starShip.name,
       model: starShip.model,
       manufacturer: starShip.manufacturer,
-      constInCredits: starShip.constInCredits,
+      costInCredits: starShip.cost_in_credits,
       length: starShip.length,
       crew: starShip.crew,
       passengers: starShip.passengers,
-      cargoCapacity: starShip.cargoCapacity,
+      cargoCapacity: starShip.cargo_capacity,
     };
   };
 }

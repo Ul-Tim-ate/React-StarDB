@@ -3,21 +3,21 @@ import React from "react";
 import Header from "../header";
 import RandomPlanet from "../random-planet";
 import PeoplePage from "../people-page";
+import PlanetPage from "../planet-page";
 
 import "./app.css";
+import { SwapiService } from "../../services/swapi-service";
 
 class App extends React.Component {
-  state = {
-    selectedPerson: null,
-  };
-
-
+  swapiService = new SwapiService();
   render() {
+
     return (
-      <div>
+      <div className="container">
         <Header />
         <RandomPlanet />
-        <PeoplePage />
+        {/* <PeoplePage /> */}
+        <PlanetPage />
       </div>
     );
   }

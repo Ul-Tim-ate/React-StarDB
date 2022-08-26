@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Spinner from "../spinner";
-
 import "./item-list.css";
 
 export default class ItemList extends Component {
@@ -9,6 +8,7 @@ export default class ItemList extends Component {
   };
   componentDidMount() {
     const { getData } = this.props;
+
     getData().then((itemList) => {
       this.setState({
         itemList,
@@ -36,7 +36,6 @@ export default class ItemList extends Component {
     if (!itemList) {
       return <Spinner />;
     }
-
     return (
       <ul className="item-list list-group">{this.renderItems(itemList)}</ul>
     );

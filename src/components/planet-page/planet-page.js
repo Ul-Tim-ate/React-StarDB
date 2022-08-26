@@ -5,12 +5,12 @@ import ErrorIndicator from "../error-indicator/error-indicator";
 import Row from "../row";
 import { Record } from "../item-details/item-details";
 import { SwapiService } from "../../services/swapi-service";
-import "./people-page.css";
+import "./planet-page.css";
 
-export default class PeoplePage extends Component {
+export default class PlanetPage extends Component {
   swapiService = new SwapiService();
   state = {
-    selectedPerson: 3,
+    selectedPlanet: 3,
     hasError: false,
   };
 
@@ -20,34 +20,33 @@ export default class PeoplePage extends Component {
     });
   }
 
-  onPersonSelected = (selectedPerson) => {
-    this.setState({ selectedPerson });
+  onPlanetSelected = (selectedPlanet) => {
+    this.setState({ selectedPlanet });
   };
 
   render() {
     if (this.state.hasError) {
       return <ErrorIndicator />;
     }
-
-    const personList = (
+    const planetList = (
       <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}
+        onItemSelected={this.onPlanetSelected}
+        getData={this.swapiService.getAllPlanets}
         renderItem={({ name }) => ` ${name}`}
       />
     );
-    const personDetails = (
+    const planetDetails = (
       <ItemDetails
-        itemId={this.state.selectedPerson}
-        getData={this.swapiService.getPerson}
-        getImgUrl={this.swapiService.getPersonImg}
+        itemId={this.state.selectedPlanet}
+        getData={this.swapiService.getPlanet}
+        getImgUrl={this.swapiService.getPlanetImg}
       >
-        <Record field="gender" label="Gender" />
-        <Record field="eyeColor" label="Eye Color" />
-        <Record field="birthYear" label="birth Year" />
+        <Record field="population" label="Population" />
+        <Record field="rotationPeriod" label="Rotation period" />
+        <Record field="diameter" label="Diameter" />
       </ItemDetails>
     );
 
-    return <Row left={personList} right={personDetails} />;
+    return <Row left={planetList} right={planetDetails} />;
   }
 }
