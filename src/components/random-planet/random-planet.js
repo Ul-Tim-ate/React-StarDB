@@ -73,7 +73,7 @@ const RandomPlanetView = ({ planet }) => {
         alt={`planet - ${name}`}
       />
       <div>
-        <h4>{planetName}</h4>
+        <h4>{name}</h4>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <span className="term">Population</span>
