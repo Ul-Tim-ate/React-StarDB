@@ -4,11 +4,10 @@ import ItemDetails from "../item-details";
 import ErrorIndicator from "../error-indicator/error-indicator";
 import Row from "../row";
 import { Record } from "../item-details/item-details";
-import { SwapiService } from "../../services/swapi-service";
+import { SwapiServiceConsumer } from "../swapi-service-context";
 import "./people-page.css";
 
 export default class PeoplePage extends Component {
-  swapiService = new SwapiService();
   state = {
     selectedPerson: 3,
     hasError: false,
@@ -30,22 +29,35 @@ export default class PeoplePage extends Component {
     }
 
     const personList = (
-      <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}
-        renderItem={({ name }) => ` ${name}`}
-      />
+      <SwapiServiceConsumer>
+        {({ getAllPeople }) => {
+          return (
+            <ItemList
+              onItemSelected={this.onPersonSelected}
+              getData={getAllPeople}
+              renderItem={({ name }) => ` ${name}`}
+            />
+          );
+        }}
+      </SwapiServiceConsumer>
     );
+
     const personDetails = (
-      <ItemDetails
-        itemId={this.state.selectedPerson}
-        getData={this.swapiService.getPerson}
-        getImgUrl={this.swapiService.getPersonImg}
-      >
-        <Record field="gender" label="Gender" />
-        <Record field="eyeColor" label="Eye Color" />
-        <Record field="birthYear" label="birth Year" />
-      </ItemDetails>
+      <SwapiServiceConsumer>
+        {({ getPerson, getPersonImg }) => {
+          return (
+            <ItemDetails
+              itemId={this.state.selectedPerson}
+              getData={getPerson}
+              getImgUrl={getPersonImg}
+            >
+              <Record field="gender" label="Gender" />
+              <Record field="eyeColor" label="Eye Color" />
+              <Record field="birthYear" label="birth Year" />
+            </ItemDetails>
+          );
+        }}
+      </SwapiServiceConsumer>
     );
 
     return <Row left={personList} right={personDetails} />;

@@ -4,11 +4,10 @@ import ItemDetails from "../item-details";
 import ErrorIndicator from "../error-indicator/error-indicator";
 import Row from "../row";
 import { Record } from "../item-details/item-details";
-import { SwapiService } from "../../services/swapi-service";
+import { SwapiServiceConsumer } from "../swapi-service-context";
 import "./planet-page.css";
 
 export default class PlanetPage extends Component {
-  swapiService = new SwapiService();
   state = {
     selectedPlanet: 3,
     hasError: false,
@@ -28,23 +27,36 @@ export default class PlanetPage extends Component {
     if (this.state.hasError) {
       return <ErrorIndicator />;
     }
+
     const planetList = (
-      <ItemList
-        onItemSelected={this.onPlanetSelected}
-        getData={this.swapiService.getAllPlanets}
-        renderItem={({ name }) => ` ${name}`}
-      />
+      <SwapiServiceConsumer>
+        {({ getAllPlanets }) => {
+          return (
+            <ItemList
+              onItemSelected={this.onPlanetSelected}
+              getData={getAllPlanets}
+              renderItem={({ name }) => ` ${name}`}
+            />
+          );
+        }}
+      </SwapiServiceConsumer>
     );
     const planetDetails = (
-      <ItemDetails
-        itemId={this.state.selectedPlanet}
-        getData={this.swapiService.getPlanet}
-        getImgUrl={this.swapiService.getPlanetImg}
-      >
-        <Record field="population" label="Population" />
-        <Record field="rotationPeriod" label="Rotation period" />
-        <Record field="diameter" label="Diameter" />
-      </ItemDetails>
+      <SwapiServiceConsumer>
+        {({ getPlanet, getPlanetImg }) => {
+          return (
+            <ItemDetails
+              itemId={this.state.selectedPlanet}
+              getData={getPlanet}
+              getImgUrl={getPlanetImg}
+            >
+              <Record field="population" label="Population" />
+              <Record field="rotationPeriod" label="Rotation period" />
+              <Record field="diameter" label="Diameter" />
+            </ItemDetails>
+          );
+        }}
+      </SwapiServiceConsumer>
     );
 
     return <Row left={planetList} right={planetDetails} />;

@@ -1,5 +1,5 @@
 import React from "react";
 
-const { Provider: swapiServiceProvider, Consumer: swapiServiceConsumer } =
+const { Provider: SwapiServiceProvider, Consumer: SwapiServiceConsumer } =
   React.createContext();
-export { swapiServiceProvider, swapiServiceConsumer };
+export { SwapiServiceProvider, SwapiServiceConsumer };
