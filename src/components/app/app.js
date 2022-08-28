@@ -4,6 +4,7 @@ import Header from "../header";
 import RandomPlanet from "../random-planet";
 import PeoplePage from "../people-page";
 import PlanetPage from "../planet-page";
+import StarShipPage from "../starship-page"
 import { SwapiServiceProvider } from "../swapi-service-context";
 
 import "./app.css";
@@ -22,7 +23,7 @@ class App extends React.Component {
             <Route path="/" element={<h2>Wellcome to StarDB</h2>} />
             <Route path="/people" element={<PeoplePage />} />
             <Route path="/planets" element={<PlanetPage />} />
-            {/* <Route path="/starships" element={< />} /> */}
+            <Route path="/starships" element={<StarShipPage />} />
           </Routes>
         </SwapiServiceProvider>
       </div>
