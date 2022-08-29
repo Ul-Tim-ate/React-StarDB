@@ -20,7 +20,7 @@ export default class PeoplePage extends Component {
   }
 
   onPersonSelected = (selectedPerson) => {
-    this.setState({ selectedPerson });
+		this.setState({ selectedPerson });
   };
 
   render() {
